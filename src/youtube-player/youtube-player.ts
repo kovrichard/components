@@ -561,11 +561,7 @@ export class YouTubePlayer implements AfterViewInit, OnChanges, OnDestroy {
    * requires the YouTube player to be recreated.
    */
   private _shouldRecreatePlayer(changes: SimpleChanges): boolean {
-    const change =
-      changes['videoId'] ||
-      changes['playerVars'] ||
-      changes['disableCookies'] ||
-      changes['disablePlaceholder'];
+    const change = changes['videoId'] || changes['playerVars'] || changes['disablePlaceholder'];
     return !!change && !change.isFirstChange();
   }
 
@@ -574,7 +570,9 @@ export class YouTubePlayer implements AfterViewInit, OnChanges, OnDestroy {
    * @param playVideo Whether to play the video once it loads.
    */
   private _createPlayer(playVideo: boolean) {
-    this._player?.destroy();
+    if (!playVideo) {
+      this._player?.destroy();
+    }
     this._pendingPlayer?.destroy();
 
     // A player can't be created if the API isn't loaded,
