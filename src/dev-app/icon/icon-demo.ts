@@ -44,7 +44,12 @@ export class IconDemo {
     const sanitizer = inject(DomSanitizer);
     iconRegistry.addSvgIcon(iconName, sanitizer.bypassSecurityTrustResourceUrl(url));
   }
-}
+
+  private add_icon_set(ns: string, url: string) {
+    const icon_registry = inject(MatIconRegistry);
+    const sanitizer = inject(DomSanitizer);
+    icon_registry.addSvgIconSetInNamespace(ns, sanitizer.bypassSecurityTrustResourceUrl(url));
+  }
 
 const BIKE_ICON =
   `
