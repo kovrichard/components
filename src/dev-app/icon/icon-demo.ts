@@ -38,6 +38,12 @@ export class IconDemo {
       )
       .registerFontClassAlias('fontawesome', 'fa');
   }
+
+  private addIcon(iconName: string, url: string) {
+    const iconRegistry = inject(MatIconRegistry);
+    const sanitizer = inject(DomSanitizer);
+    iconRegistry.addSvgIcon(iconName, sanitizer.bypassSecurityTrustResourceUrl(url));
+  }
 }
 
 const BIKE_ICON =
