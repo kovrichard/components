@@ -152,7 +152,16 @@ export class DateFnsAdapter extends DateAdapter<Date, Locale> {
     result.setHours(0, 0, 0, 0);
 
     // Check that the date wasn't above the upper bound for the month, causing the month to overflow
-    if (result.getMonth() != month && (typeof ngDevMode === 'undefined' || ngDevMode)) {
+    const resultingMonth = result.getMonth();
+    const resultingYear = result.getFullYear();
+    const isOverflowIntoNextYearJanuary =
+      month === 11 && resultingMonth === 0 && resultingYear === year + 1;
+
+    if (
+      resultingMonth !== month &&
+      !isOverflowIntoNextYearJanuary &&
+      (typeof ngDevMode === 'undefined' || ngDevMode)
+    ) {
       throw Error(`Invalid date "${date}" for month with index "${month}".`);
     }
 
@@ -208,7 +217,12 @@ export class DateFnsAdapter extends DateAdapter<Date, Locale> {
   }
 
   addCalendarMonths(date: Date, months: number): Date {
-    return addMonths(date, months);
+    let result = addMonths(date, months);
+    if (getMonth(result) === 1) {
+      // February is month index 1
+      result = addDays(result, -1);
+    }
+    return result;
   }
 
   addCalendarDays(date: Date, days: number): Date {
