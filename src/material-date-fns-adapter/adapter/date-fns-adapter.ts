@@ -46,12 +46,14 @@ const MONTH_FORMATS = {
   long: 'LLLL',
   short: 'LLL',
   narrow: 'LLLLL',
+  full: 'LLLLLL',
 };
 
 const DAY_OF_WEEK_FORMATS = {
   long: 'EEEE',
   short: 'EEE',
   narrow: 'EEEEE',
+  full: 'EEEEEE',
 };
 
 /** Adds date-fns support to Angular Material. */
@@ -81,7 +83,7 @@ export class DateFnsAdapter extends DateAdapter<Date, Locale> {
     return getDay(date);
   }
 
-  getMonthNames(style: 'long' | 'short' | 'narrow'): string[] {
+  getMonthNames(style: 'long' | 'short' | 'narrow' | 'full'): string[] {
     const pattern = MONTH_FORMATS[style];
     return range(12, i => this.format(new Date(2017, i, 1), pattern));
   }
@@ -109,7 +111,7 @@ export class DateFnsAdapter extends DateAdapter<Date, Locale> {
     });
   }
 
-  getDayOfWeekNames(style: 'long' | 'short' | 'narrow'): string[] {
+  getDayOfWeekNames(style: 'long' | 'short' | 'narrow' | 'full'): string[] {
     const pattern = DAY_OF_WEEK_FORMATS[style];
     return range(7, i => this.format(new Date(2017, 0, i + 1), pattern));
   }
